@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Getting Started with Physics-Informed Neural Networks - Blog post by Sagbo Jean-Claude Mitchozounou">
+    <title>Getting Started with PINNs | Sagbo Mitchozounou</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .blog-post {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .post-header {
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 30px;
+        }
+
+        .post-title {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .post-meta {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .post-category {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        .post-content {
+            line-height: 1.8;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .post-content h2 {
+            color: var(--primary-color);
+            margin-top: 40px;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .post-content h3 {
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .post-content p {
+            margin-bottom: 15px;
+        }
+
+        .post-content ul,
+        .post-content ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .post-content li {
+            margin-bottom: 8px;
+        }
+
+        .post-content code {
+            background: var(--bg-light);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        .post-content pre {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .post-footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid var(--border-color);
+            text-align: center;
+        }
+
+        .share-buttons {
+            margin: 20px 0;
+        }
+
+        .share-buttons a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .share-buttons a:hover {
+            background: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation (Same as main site) -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="../#home">Sagbo J.C. Mitchozounou</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="../#home">Home</a></li>
+                <li><a href="../#about">About</a></li>
+                <li><a href="../#research">Research</a></li>
+                <li><a href="../#publications">Publications</a></li>
+                <li><a href="../#teaching">Teaching</a></li>
+                <li><a href="../#blog">Blog</a></li>
+                <li><a href="../#experience">Experience</a></li>
+                <li><a href="../#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="blog-post">
+        <a href="../#blog" class="back-link">← Back to Blog</a>
+
+        <div class="post-header">
+            <span class="post-category">Tutorial</span>
+            <h1 class="post-title">Getting Started with Physics-Informed Neural Networks</h1>
+            <div class="post-meta">
+                <p><strong>By Sagbo Jean-Claude Mitchozounou</strong></p>
+                <p>Published: [Date Coming Soon]</p>
+                <p>Reading time: ~10 minutes</p>
+            </div>
+        </div>
+
+        <div class="post-content">
+            <h2>Introduction</h2>
+            <p>
+                Physics-Informed Neural Networks (PINNs) represent a revolutionary approach to scientific computing
+                that combines the power of deep learning with fundamental physical laws. In this comprehensive guide,
+                we'll explore what PINNs are, why they matter, and how to implement your first PINN.
+            </p>
+
+            <h2>What Are Physics-Informed Neural Networks?</h2>
+            <p>
+                PINNs are neural networks that are trained to solve supervised learning tasks while respecting
+                any given laws of physics that constrain the output. They can be used to:
+            </p>
+            <ul>
+                <li>Solve partial differential equations (PDEs)</li>
+                <li>Identify physical parameters from data</li>
+                <li>Perform surrogate modeling</li>
+                <li>Discover hidden physics from experimental data</li>
+            </ul>
+
+            <h2>Why Use Physics-Informed Neural Networks?</h2>
+            <p>
+                Traditional numerical methods for solving PDEs require mesh generation and can be computationally
+                expensive, especially for high-dimensional problems. PINNs offer several advantages:
+            </p>
+            <ul>
+                <li><strong>Mesh-free:</strong> No need for computational grids</li>
+                <li><strong>Dimension-agnostic:</strong> Works well even in high dimensions</li>
+                <li><strong>Data-efficient:</strong> Can leverage sparse experimental data</li>
+                <li><strong>Fast inference:</strong> Once trained, predictions are instantaneous</li>
+            </ul>
+
+            <h2>Mathematical Foundation</h2>
+            <p>
+                At their core, PINNs use automatic differentiation to compute derivatives of the neural network
+                predictions. The loss function combines:
+            </p>
+            <ul>
+                <li><strong>Data fitting loss:</strong> Matches known solutions</li>
+                <li><strong>Physics loss:</strong> Enforces PDE residuals to be small</li>
+                <li><strong>Boundary condition loss:</strong> Satisfies initial and boundary conditions</li>
+            </ul>
+
+            <h2>Getting Started with PyTorch</h2>
+            <p>Let's implement a simple PINN to solve the 1D Burgers equation:</p>
+
+            <pre><code>import torch
+import torch.nn as nn
+import numpy as np
+
+class PINN(nn.Module):
+    def __init__(self, layers):
+        super(PINN, self).__init__()
+        self.layers = nn.ModuleList()
+        
+        for i in range(len(layers)-1):
+            self.layers.append(nn.Linear(layers[i], layers[i+1]))
+    
+    def forward(self, x):
+        for i, layer in enumerate(self.layers[:-1]):
+            x = torch.tanh(layer(x))
+        x = self.layers[-1](x)
+        return x
+
+# Define the model
+model = PINN([2, 64, 64, 64, 1])
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)</code></pre>
+
+            <h2>Key Implementation Tips</h2>
+            <ul>
+                <li>Use <code>torch.autograd.grad()</code> for automatic differentiation</li>
+                <li>Normalize inputs and outputs for better training</li>
+                <li>Use adaptive activation functions like tanh or swish</li>
+                <li>Weight the loss components carefully</li>
+                <li>Consider using spectral methods for better accuracy</li>
+            </ul>
+
+            <h2>Common Challenges and Solutions</h2>
+            <p>
+                <strong>Challenge 1: Slow Convergence</strong><br>
+                Solution: Use adaptive weight scheduling and learning rate scheduling. Consider using residual
+                connections.
+            </p>
+            <p>
+                <strong>Challenge 2: Poor Boundary Condition Satisfaction</strong><br>
+                Solution: Increase the weight of boundary condition loss or use a penalty method approach.
+            </p>
+            <p>
+                <strong>Challenge 3: Multi-scale Problems</strong><br>
+                Solution: Use transfer learning or curriculum learning strategies.
+            </p>
+
+            <h2>Next Steps</h2>
+            <p>
+                Now that you understand the basics, consider:
+            </p>
+            <ul>
+                <li>Implementing PINNs for your favorite PDE</li>
+                <li>Exploring advanced architectures like DeepONets</li>
+                <li>Reading the original papers (Raissi et al., 2019)</li>
+                <li>Checking out open-source libraries like DeepXDE</li>
+            </ul>
+
+            <h2>Conclusion</h2>
+            <p>
+                Physics-Informed Neural Networks represent an exciting frontier in scientific machine learning.
+                By combining the flexibility of neural networks with the constraints of physical laws, PINNs offer
+                a powerful tool for solving complex problems across engineering and science.
+            </p>
+
+            <div class="post-footer">
+                <h3>Share This Post</h3>
+                <div class="share-buttons">
+                    <a
+                        href="mailto:?subject=Check out this PINN tutorial&body=Physics-Informed Neural Networks tutorial: [URL]">Email</a>
+                    <a href="#">LinkedIn</a>
+                    <a href="#">Twitter</a>
+                </div>
+
+                <h3>Questions or Comments?</h3>
+                <p>Feel free to reach out via email: <a
+                        href="mailto:sagbo.mitchozounou@um6p.ma">sagbo.mitchozounou@um6p.ma</a></p>
+
+                <p><a href="../#blog" class="back-link">← Back to Blog</a></p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Sagbo Jean-Claude Mitchozounou. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://www.linkedin.com/in/sagbo-jean-claude-mitchozounou/" target="_blank">LinkedIn</a>
+                <a href="https://www.researchgate.net/profile/Sagbo_Mitchozounou" target="_blank">ResearchGate</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+</body>
+
+</html>
